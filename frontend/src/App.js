@@ -1,3 +1,5 @@
+// App.js
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
@@ -9,7 +11,13 @@ import GarbageCollectorDashboard from './pages/GarbageCollectorDashboard';
 import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/Profile';
-import WasteRequestForm from './pages/WasteRequestForm'; // Import the request form component
+import WasteRequestForm from './pages/WasteRequestForm';
+import PaymentPage from './pages/PaymentPage';
+
+// Importing new components
+import AdminUserManagement from './components/AdminUserManagement';
+import CollectorAssignedUsers from './components/CollectorAssignedUsers';
+import UserInvoices from './components/UserInvoices';
 
 function App() {
   return (
@@ -17,43 +25,91 @@ function App() {
       <Header />
       <div className="container mt-4">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
-          
+
           {/* Protected Routes */}
-          <Route 
-            path="/user-dashboard" 
+          {/* User Routes */}
+          <Route
+            path="/user-dashboard"
             element={
               <PrivateRoute roles={['user', 'admin']}>
                 <UserDashboard />
               </PrivateRoute>
-            } 
+            }
           />
-          <Route 
-            path="/create-request"  // New route for users to create waste collection requests
+          <Route
+            path="/create-request"
             element={
               <PrivateRoute roles={['user']}>
                 <WasteRequestForm />
               </PrivateRoute>
             }
           />
-          <Route 
-            path="/admin-dashboard" 
+          <Route
+            path="/user/invoices"
+            element={
+              <PrivateRoute roles={['user']}>
+                <UserInvoices />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin-dashboard"
             element={
               <PrivateRoute roles={['admin']}>
                 <AdminDashboard />
               </PrivateRoute>
-            } 
+            }
           />
-          <Route 
-            path="/garbage-collector-dashboard" 
+          <Route
+            path="/admin/users"
+            element={
+              <PrivateRoute roles={['admin']}>
+                <AdminUserManagement />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Garbage Collector Routes */}
+          <Route
+            path="/garbage-collector-dashboard"
             element={
               <PrivateRoute roles={['garbageCollector', 'admin']}>
                 <GarbageCollectorDashboard />
               </PrivateRoute>
-            } 
+            }
+          />
+          <Route
+            path="/collector/assigned-users"
+            element={
+              <PrivateRoute roles={['garbageCollector']}>
+                <CollectorAssignedUsers />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Payment and Request Form Routes */}
+          <Route
+            path="/request-form"
+            element={
+              <PrivateRoute roles={['user']}>
+                <WasteRequestForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <PrivateRoute roles={['user']}>
+                <PaymentPage />
+              </PrivateRoute>
+            }
           />
         </Routes>
       </div>

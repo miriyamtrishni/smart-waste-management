@@ -33,7 +33,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false, // Optional for now
     trim: true
-  }
+  },
+  assignedCollector: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true });
 
 // Hash password before saving

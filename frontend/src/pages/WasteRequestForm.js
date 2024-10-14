@@ -10,11 +10,10 @@ const WasteRequestForm = () => {
     wasteItems: [
       { wasteType: 'food', packageSize: 'small', quantity: 1 },
       { wasteType: 'cardboard', packageSize: 'small', quantity: 1 },
-      { wasteType: 'polythene', packageSize: 'small', quantity: 1 }
+      { wasteType: 'polythene', packageSize: 'small', quantity: 1 },
     ],
   });
   const [userInfo, setUserInfo] = useState({});
-  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -44,30 +43,33 @@ const WasteRequestForm = () => {
   // Submit the request
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post('http://localhost:5000/api/request/create', formData, {
-        headers: { Authorization: `Bearer ${auth.token}` },
-      });
-      navigate(`/invoice/${res.data._id}`); // Redirect to invoice page after submission
-    } catch (err) {
-      setError('Failed to create request');
-      console.error('Error submitting request:', err);
-    }
+
+    // Store formData in localStorage or state management
+    // For simplicity, we'll use localStorage here
+    localStorage.setItem('pendingRequest', JSON.stringify(formData));
+
+    // Redirect to payment page
+    navigate('/payment');
   };
 
   return (
     <div>
       <h2>Create Waste Collection Request</h2>
       {error && <Alert variant="danger">{error}</Alert>}
-      {message && <Alert variant="success">{message}</Alert>}
-      
+
       {/* User Info Card */}
       <Card className="mb-4">
         <Card.Body>
           <h5>User Information</h5>
-          <p><strong>Name:</strong> {userInfo.name}</p>
-          <p><strong>Email:</strong> {userInfo.email}</p>
-          <p><strong>Phone:</strong> {userInfo.phoneNumber}</p>
+          <p>
+            <strong>Name:</strong> {userInfo.name}
+          </p>
+          <p>
+            <strong>Email:</strong> {userInfo.email}
+          </p>
+          <p>
+            <strong>Phone:</strong> {userInfo.phoneNumber}
+          </p>
         </Card.Body>
       </Card>
 
@@ -79,7 +81,9 @@ const WasteRequestForm = () => {
             <Col md={4} key={waste.wasteType}>
               <Card className="mb-3">
                 <Card.Body>
-                  <Card.Title>{waste.wasteType.charAt(0).toUpperCase() + waste.wasteType.slice(1)} Waste</Card.Title>
+                  <Card.Title>
+                    {waste.wasteType.charAt(0).toUpperCase() + waste.wasteType.slice(1)} Waste
+                  </Card.Title>
                   <Form.Group>
                     <Form.Check
                       type="radio"
@@ -113,7 +117,7 @@ const WasteRequestForm = () => {
         </Row>
 
         <Button variant="primary" type="submit">
-          Confirm Request
+          Proceed to Payment
         </Button>
       </Form>
     </div>
