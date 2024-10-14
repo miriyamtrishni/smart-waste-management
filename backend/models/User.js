@@ -21,8 +21,18 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'garbageCollector'],  // Add garbageCollector role
     default: 'user'
+  },
+  address: {
+    type: String,
+    required: false, // Not mandatory, can be added later
+    trim: true
+  },
+  phoneNumber: {
+    type: String,
+    required: false, // Optional for now
+    trim: true
   }
 }, { timestamps: true });
 

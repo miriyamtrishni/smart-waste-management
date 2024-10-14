@@ -1,4 +1,3 @@
-// frontend/src/components/Header.js
 import React, { useContext } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -24,9 +23,24 @@ const Header = () => {
             {auth.user ? (
               <>
                 {auth.user.role === 'admin' && (
-                  <Nav.Link as={Link} to="/admin-dashboard">Admin Dashboard</Nav.Link>
+                  <>
+                    <Nav.Link as={Link} to="/admin-dashboard">Admin Dashboard</Nav.Link>
+                    <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                  </>
                 )}
-                <Nav.Link as={Link} to="/user-dashboard">User Dashboard</Nav.Link>
+                {auth.user.role === 'garbageCollector' && (
+                  <>
+                    <Nav.Link as={Link} to="/garbage-collector-dashboard">Garbage Collector Dashboard</Nav.Link>
+                    <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                  </>
+                )}
+                {auth.user.role === 'user' && (
+                  <>
+                    <Nav.Link as={Link} to="/user-dashboard">User Dashboard</Nav.Link>
+                    <Nav.Link as={Link} to="/create-request">Request Waste Collection</Nav.Link> {/* New Link */}
+                    <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                  </>
+                )}
                 <Nav.Link onClick={logout}>Logout</Nav.Link>
               </>
             ) : (

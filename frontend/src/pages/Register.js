@@ -13,12 +13,14 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
-    role: 'user'
+    role: 'user',
+    address: '',
+    phoneNumber: ''
   });
 
   const [error, setError] = useState('');
 
-  const { name, email, password, role } = formData;
+  const { name, email, password, role, address, phoneNumber } = formData;
 
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
 
@@ -33,7 +35,6 @@ const Register = () => {
     }
   };
 
-  // Function to parse JWT token
   const parseJwt = (token) => {
     try {
       return JSON.parse(atob(token.split('.')[1]));
@@ -61,12 +62,23 @@ const Register = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" name="password" value={password} onChange={onChange} required />
         </Form.Group>
+
+        <Form.Group controlId="address" className="mb-3">
+          <Form.Label>Address</Form.Label>
+          <Form.Control type="text" name="address" value={address} onChange={onChange} />
+        </Form.Group>
+        
+        <Form.Group controlId="phoneNumber" className="mb-3">
+          <Form.Label>Phone Number</Form.Label>
+          <Form.Control type="text" name="phoneNumber" value={phoneNumber} onChange={onChange} />
+        </Form.Group>
         
         <Form.Group controlId="role" className="mb-3">
           <Form.Label>Role</Form.Label>
           <Form.Select name="role" value={role} onChange={onChange}>
             <option value="user">User</option>
             <option value="admin">Admin</option>
+            <option value="garbageCollector">Garbage Collector</option>
           </Form.Select>
         </Form.Group>
         
