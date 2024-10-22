@@ -1,9 +1,8 @@
-// components/Header.js
-
 import React, { useContext } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import '../styles/Header.css';  // Import the CSS file here
 
 const Header = () => {
   const { auth, setAuth } = useContext(AuthContext);
@@ -18,10 +17,10 @@ const Header = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">Smart Waste Management</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">TrashMate</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
+          <Nav className="me-auto">  {/* Ensures the rest of the links align left */}
             {auth.user ? (
               <>
                 {auth.user.role === 'admin' && (
@@ -47,7 +46,6 @@ const Header = () => {
                     <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                   </>
                 )}
-                <Nav.Link onClick={logout}>Logout</Nav.Link>
               </>
             ) : (
               <>
@@ -56,6 +54,11 @@ const Header = () => {
               </>
             )}
           </Nav>
+          {auth.user && (
+            <Nav>
+              <Nav.Link className="logout-btn" onClick={logout}>Logout</Nav.Link> {/* Logout moved here */}
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
