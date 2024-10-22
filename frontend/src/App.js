@@ -12,7 +12,7 @@ import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './pages/Profile';
 import WasteRequestForm from './pages/WasteRequestForm';
-import PaymentPage from './pages/PaymentPage';
+import PaymentPage from './components/PaymentPage';
 
 // Importing new components
 import AdminUserManagement from './components/AdminUserManagement';
@@ -105,6 +105,7 @@ function App() {
             }
           />
         </Routes>
+        
       </div>
     </Router>
   );

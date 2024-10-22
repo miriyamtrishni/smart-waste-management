@@ -1,3 +1,5 @@
+// src/components/WasteRequestForm.js
+
 import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
@@ -8,9 +10,9 @@ const WasteRequestForm = () => {
   const { auth } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     wasteItems: [
-      { wasteType: 'food', packageSize: 'small', quantity: 1 },
-      { wasteType: 'cardboard', packageSize: 'small', quantity: 1 },
-      { wasteType: 'polythene', packageSize: 'small', quantity: 1 },
+      { wasteType: 'food', weight: 0 },
+      { wasteType: 'cardboard', weight: 0 },
+      { wasteType: 'polythene', weight: 0 },
     ],
   });
   const [userInfo, setUserInfo] = useState({});
@@ -24,18 +26,25 @@ const WasteRequestForm = () => {
         const res = await axios.get('http://localhost:5000/api/auth/profile', {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
-        setUserInfo(res.data); // Auto-fill user info like name, email, phoneNumber
+        setUserInfo(res.data);
       } catch (err) {
         console.error('Error fetching user info:', err);
+        setError('Failed to fetch user information.');
       }
     };
     fetchUserInfo();
   }, [auth.token]);
 
-  // Handle package size changes
-  const handleSizeChange = (e, wasteType) => {
+  // Handle weight changes
+  const handleWeightChange = (e, wasteType) => {
+    setError('');
+    const value = parseFloat(e.target.value);
+    if (isNaN(value) || value < 0) {
+      setError('Please enter a valid positive number for weight.');
+      return;
+    }
     const newWasteItems = formData.wasteItems.map((waste) =>
-      waste.wasteType === wasteType ? { ...waste, packageSize: e.target.value } : waste
+      waste.wasteType === wasteType ? { ...waste, weight: value } : waste
     );
     setFormData({ ...formData, wasteItems: newWasteItems });
   };
@@ -44,9 +53,31 @@ const WasteRequestForm = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // Store formData in localStorage or state management
-    // For simplicity, we'll use localStorage here
-    localStorage.setItem('pendingRequest', JSON.stringify(formData));
+    // Validate that at least one waste item has a positive weight
+    const hasPositiveWeight = formData.wasteItems.some((item) => item.weight > 0);
+    if (!hasPositiveWeight) {
+      setError('Please enter a positive weight for at least one waste type.');
+      return;
+    }
+
+    // Calculate total price
+    const priceMap = {
+      food: 50, // LKR per kg
+      cardboard: 100, // LKR per kg
+      polythene: 150, // LKR per kg
+    };
+
+    let totalPrice = 0;
+    const processedWasteItems = formData.wasteItems.map((item) => {
+      const itemPrice = priceMap[item.wasteType] * item.weight;
+      totalPrice += itemPrice;
+      return { ...item, totalPrice: itemPrice };
+    });
+
+    const processedFormData = { wasteItems: processedWasteItems };
+
+    // Store formData in localStorage for payment processing
+    localStorage.setItem('pendingRequest', JSON.stringify(processedFormData));
 
     // Redirect to payment page
     navigate('/payment');
@@ -75,7 +106,7 @@ const WasteRequestForm = () => {
 
       {/* Waste Request Form */}
       <Form onSubmit={onSubmit}>
-        <h5>Select Waste Types and Sizes</h5>
+        <h5>Enter Weights for Waste Types</h5>
         <Row className="mb-4">
           {formData.wasteItems.map((waste, index) => (
             <Col md={4} key={waste.wasteType}>
@@ -84,30 +115,15 @@ const WasteRequestForm = () => {
                   <Card.Title>
                     {waste.wasteType.charAt(0).toUpperCase() + waste.wasteType.slice(1)} Waste
                   </Card.Title>
-                  <Form.Group>
-                    <Form.Check
-                      type="radio"
-                      name={`${waste.wasteType}-size`}
-                      label="Small"
-                      value="small"
-                      checked={waste.packageSize === 'small'}
-                      onChange={(e) => handleSizeChange(e, waste.wasteType)}
-                    />
-                    <Form.Check
-                      type="radio"
-                      name={`${waste.wasteType}-size`}
-                      label="Medium"
-                      value="medium"
-                      checked={waste.packageSize === 'medium'}
-                      onChange={(e) => handleSizeChange(e, waste.wasteType)}
-                    />
-                    <Form.Check
-                      type="radio"
-                      name={`${waste.wasteType}-size`}
-                      label="Large"
-                      value="large"
-                      checked={waste.packageSize === 'large'}
-                      onChange={(e) => handleSizeChange(e, waste.wasteType)}
+                  <Form.Group controlId={`weight-${waste.wasteType}`}>
+                    <Form.Label>Weight (kg)</Form.Label>
+                    <Form.Control
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={waste.weight}
+                      onChange={(e) => handleWeightChange(e, waste.wasteType)}
+                      required
                     />
                   </Form.Group>
                 </Card.Body>

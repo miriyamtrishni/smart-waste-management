@@ -3,48 +3,45 @@
 const express = require('express');
 const router = express.Router();
 const Request = require('../models/Request');
+const Joi = require('joi'); 
 const authMiddleware = require('../middleware/auth');
 
-// Pricing formula
+// Pricing formula based on weight (per kg)
 const priceMap = {
-  food: 50,
-  cardboard: 100,
-  polythene: 150,
+  food: 50,       // LKR per kg
+  cardboard: 100, // LKR per kg
+  polythene: 150, // LKR per kg
 };
 
-const calculatePrice = (wasteType, packageSize) => {
-  const multiplier = { small: 2, medium: 4, large: 8 };
-  return priceMap[wasteType] * multiplier[packageSize];
+// Calculate price based on wasteType and weight
+const calculatePrice = (wasteType, weight) => {
+  return priceMap[wasteType] * weight;
 };
 
-// Create a new waste collection request with multiple waste items
+// Create a new waste collection request
 router.post('/create', authMiddleware, async (req, res) => {
-  const { wasteItems } = req.body;
-  const user = req.user.userId;
+  const { wasteItems, totalPrice, paymentIntentId } = req.body;
+  const userId = req.user.userId; // Adjust based on your auth middleware
 
   try {
-    // Calculate the total price for each waste item and for the whole request
-    let totalPrice = 0;
-    const processedWasteItems = wasteItems.map((item) => {
-      const itemPrice = calculatePrice(item.wasteType, item.packageSize) * item.quantity;
-      totalPrice += itemPrice;
-      return {
-        wasteType: item.wasteType,
-        packageSize: item.packageSize,
-        quantity: item.quantity,
-        totalPrice: itemPrice,
-      };
+    const newRequest = new Request({
+      user: userId,
+      wasteItems,
+      totalPrice,
+      status: 'pending', // Initial status
+      paymentStatus: 'paid',
+      paymentIntentId,
     });
 
-    // Create and save the new request
-    const request = new Request({ user, wasteItems: processedWasteItems, totalPrice });
-    await request.save();
-    res.status(201).json(request);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    await newRequest.save();
+
+    res.status(201).json({ message: 'Waste collection request created successfully', request: newRequest });
+  } catch (error) {
+    console.error('Error creating request:', error);
+    res.status(500).json({ message: 'Failed to create request' });
   }
 });
+
 
 // Fetch all requests (for admin)
 router.get('/admin/requests', authMiddleware, async (req, res) => {
@@ -130,7 +127,6 @@ router.delete('/:id', authMiddleware, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
 
 // Fetch a specific request by ID
 router.get('/:id', authMiddleware, async (req, res) => {
