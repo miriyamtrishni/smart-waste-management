@@ -3,7 +3,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
-import { Button, Card, Table, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -12,6 +11,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
+import '../styles/PaymentPage.css';
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -43,6 +43,12 @@ const CheckoutForm = ({ requestData, totalPrice, onSuccessfulPayment }) => {
   const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
 
+  // Additional input fields state
+  const [cardholderName, setCardholderName] = useState('');
+  const [billingAddress, setBillingAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -72,6 +78,14 @@ const CheckoutForm = ({ requestData, totalPrice, onSuccessfulPayment }) => {
       const paymentResult = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
+          billing_details: {
+            name: cardholderName,
+            address: {
+              line1: billingAddress,
+            },
+            email: email,
+            phone: phoneNumber,
+          },
         },
       });
 
@@ -111,15 +125,49 @@ const CheckoutForm = ({ requestData, totalPrice, onSuccessfulPayment }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Card className="p-3 mb-3">
-        <Card.Title>Enter Payment Details</Card.Title>
-        <CardElement options={CARD_ELEMENT_OPTIONS} />
-      </Card>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Button variant="primary" type="submit" disabled={!stripe || processing}>
-        {processing ? <Spinner animation="border" size="sm" /> : 'Pay'}
-      </Button>
+    <form onSubmit={handleSubmit} className="payment-form">
+      <div className="payment-details">
+        <h3>Enter Payment Details</h3>
+        <input
+          type="text"
+          placeholder="Cardholder Name"
+          value={cardholderName}
+          onChange={(e) => setCardholderName(e.target.value)}
+          required
+          className="input-field"
+        />
+        <input
+          type="text"
+          placeholder="Billing Address"
+          value={billingAddress}
+          onChange={(e) => setBillingAddress(e.target.value)}
+          required
+          className="input-field"
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="input-field"
+        />
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          required
+          className="input-field"
+        />
+        <div className="card-element-container">
+          <CardElement options={CARD_ELEMENT_OPTIONS} />
+        </div>
+      </div>
+      {error && <div className="error-message">{error}</div>}
+      <button className="submit-button" type="submit" disabled={!stripe || processing}>
+        {processing ? 'Processing...' : 'Pay'}
+      </button>
     </form>
   );
 };
@@ -168,48 +216,50 @@ const PaymentPage = () => {
   };
 
   return (
-    <div>
+    <div className="payment-page-container">
       <h2>Payment Page</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
+      {error && <div className="error-message">{error}</div>}
       {requestData && (
-        <>
-          <Card className="mb-4">
-            <Card.Body>
-              <h5>Confirm Your Waste Collection Request</h5>
-              <Table striped bordered hover>
+        <div className="payment-content">
+          {/* Left Container: Confirm Your Waste Collection Request */}
+          <div className="left-container">
+            <div className="summary-card">
+              <h3>Confirm Your Waste Collection Request</h3>
+              <table className="summary-table">
                 <thead>
                   <tr>
                     <th>Waste Type</th>
                     <th>Weight (kg)</th>
-                    <th>Total Price</th>
+                    <th>Total Price (LKR)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {requestData.wasteItems.map((item, index) => (
                     item.weight > 0 && (
                       <tr key={index}>
-                        <td>
-                          {item.wasteType.charAt(0).toUpperCase() + item.wasteType.slice(1)}
-                        </td>
+                        <td>{item.wasteType.charAt(0).toUpperCase() + item.wasteType.slice(1)}</td>
                         <td>{item.weight}</td>
-                        <td>{item.totalPrice} LKR</td>
+                        <td>{item.totalPrice.toLocaleString()}</td>
                       </tr>
                     )
                   ))}
                 </tbody>
-              </Table>
-              <h5>Total Price: {totalPrice} LKR</h5>
-            </Card.Body>
-          </Card>
+              </table>
+              <h4>Total Price: {totalPrice.toLocaleString()} LKR</h4>
+            </div>
+          </div>
 
-          <Elements stripe={stripePromise}>
-            <CheckoutForm
-              requestData={requestData}
-              totalPrice={totalPrice}
-              onSuccessfulPayment={handleSuccessfulPayment}
-            />
-          </Elements>
-        </>
+          {/* Right Container: Enter Payment Details */}
+          <div className="right-container">
+            <Elements stripe={stripePromise}>
+              <CheckoutForm
+                requestData={requestData}
+                totalPrice={totalPrice}
+                onSuccessfulPayment={handleSuccessfulPayment}
+              />
+            </Elements>
+          </div>
+        </div>
       )}
     </div>
   );

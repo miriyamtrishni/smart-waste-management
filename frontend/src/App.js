@@ -6,7 +6,7 @@ import Header from './components/Header';
 import WasteCollectionLayout from './components/WasteCollectionLayout'; // Assuming you have a dedicated layout
 import Login from './pages/Login';
 import Register from './pages/Register';
-import UserDashboard from './pages/UserDashboard';
+// import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import GarbageCollectorDashboard from './pages/GarbageCollectorDashboard';
 import Home from './pages/Home';
@@ -43,7 +43,7 @@ function App() {
             path="/user-dashboard"
             element={
               <PrivateRoute roles={['user', 'admin']}>
-                <UserDashboard />
+                {/* <UserDashboard /> */}
               </PrivateRoute>
             }
           />

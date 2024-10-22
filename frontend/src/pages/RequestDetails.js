@@ -1,5 +1,3 @@
-// src/pages/RequestDetails.js
-
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Spinner, Alert, Button } from 'react-bootstrap';
@@ -51,12 +49,11 @@ const RequestDetails = () => {
       <Card.Body>
         <Card.Title>Waste Collection Request Details</Card.Title>
         <Card.Text><strong>Request ID:</strong> {request._id}</Card.Text>
-        <Card.Text><strong>Date Requested:</strong> {new Date(request.createdAt).toLocaleDateString()}</Card.Text> {/* Use createdAt instead of dateRequested */}
+        <Card.Text><strong>Date Requested:</strong> {new Date(request.createdAt).toLocaleDateString()}</Card.Text>
         <Card.Text><strong>Status:</strong> {request.status}</Card.Text>
         <Card.Text><strong>Payment Status:</strong> {request.paymentStatus}</Card.Text>
         <Card.Text><strong>Total Price:</strong> LKR {request.totalPrice}</Card.Text>
-        <Card.Text><strong>Assigned Collector:</strong> {request.assignedCollector ? request.assignedCollector.name : 'N/A'}</Card.Text>
-        <Card.Text><strong>Scheduled Date:</strong> {request.scheduledDate ? new Date(request.scheduledDate).toLocaleDateString() : 'N/A'}</Card.Text>
+        <Card.Text><strong>Assigned Collector:</strong> {request.assignedCollector ? request.assignedCollector.name : 'N/A'}</Card.Text> {/* Removed Scheduled Date */}
         
         <h5>Waste Items:</h5>
         <ul>
