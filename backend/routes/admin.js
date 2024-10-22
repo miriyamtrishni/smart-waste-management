@@ -2,9 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
-const GarbageCollectionEntry = require('../models/GarbageCollectionEntry');
-const Invoice = require('../models/Invoice');
+const Request = require('../models/Request'); // Import the Request model
+const User = require('../models/User'); // Import User model if needed
 const authMiddleware = require('../middleware/auth');
 
 // Middleware to check for admin role
@@ -57,8 +56,8 @@ router.post('/generate-invoice/:userId', authMiddleware, adminMiddleware, async 
 
   try {
     // Get the last 4 collection entries for the user
-    const entries = await GarbageCollectionEntry.find({ user: userId })
-      .sort({ date: -1 })
+    const entries = await Request.find({ user: userId })
+      .sort({ createdAt: -1 })
       .limit(4);
 
     if (entries.length < 4) {
@@ -69,7 +68,7 @@ router.post('/generate-invoice/:userId', authMiddleware, adminMiddleware, async 
     const wasteTotals = {};
 
     entries.forEach((entry) => {
-      entry.wasteData.forEach((waste) => {
+      entry.wasteItems.forEach((waste) => {
         if (!wasteTotals[waste.wasteType]) {
           wasteTotals[waste.wasteType] = 0;
         }
@@ -88,7 +87,7 @@ router.post('/generate-invoice/:userId', authMiddleware, adminMiddleware, async 
     let totalAmount = 0;
     const wasteDetails = Object.keys(wasteTotals).map((wasteType) => {
       const totalWeight = wasteTotals[wasteType];
-      const ratePerKg = rates[wasteType] || 0; // Handle unknown waste types
+      const ratePerKg = rates[wasteType] || 0;
       const amount = totalWeight * ratePerKg;
       totalAmount += amount;
 
@@ -103,8 +102,8 @@ router.post('/generate-invoice/:userId', authMiddleware, adminMiddleware, async 
     // Create invoice
     const invoice = new Invoice({
       user: userId,
-      periodStart: entries[entries.length - 1].date,
-      periodEnd: entries[0].date,
+      periodStart: entries[entries.length - 1].createdAt,
+      periodEnd: entries[0].createdAt,
       totalAmount,
       wasteDetails,
     });
@@ -118,22 +117,66 @@ router.post('/generate-invoice/:userId', authMiddleware, adminMiddleware, async 
   }
 });
 
-// Get categorized garbage collection data for admin
+// Get categorized garbage collection data for admin (total weight per garbage type)
 router.get('/garbage-stats', authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const stats = await GarbageCollectionEntry.aggregate([
-      { $unwind: '$wasteData' }, // Unwind wasteData array
+    const garbageStats = await Request.aggregate([
+      { $unwind: '$wasteItems' }, // Unwind wasteItems array
       {
         $group: {
-          _id: '$wasteData.wasteType', // Group by wasteType
-          totalWeight: { $sum: '$wasteData.weight' }, // Sum total weight for each type
+          _id: '$wasteItems.wasteType', // Group by wasteType
+          totalWeight: { $sum: '$wasteItems.weight' }, // Sum total weight for each type
         },
+      },
+      { $sort: { '_id': 1 } },
+    ]);
+
+    res.json(garbageStats);
+  } catch (err) {
+    console.error('Error fetching garbage stats:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get number of requests per month for the current year
+router.get('/requests-per-month', authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const currentYear = new Date().getFullYear();
+
+    const requestsPerMonth = await Request.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(`${currentYear}-01-01`),
+            $lte: new Date(`${currentYear}-12-31`),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $month: '$createdAt' },
+          totalRequests: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { '_id': 1 },
       },
     ]);
 
-    res.json(stats);
-  } catch (err) {
-    console.error('Error fetching garbage stats:', err);
+    // Initialize all months with zero
+    const monthlyData = Array.from({ length: 12 }, (_, i) => ({
+      month: i + 1,
+      totalRequests: 0,
+    }));
+
+    // Populate the monthlyData with actual data
+    requestsPerMonth.forEach((item) => {
+      monthlyData[item._id - 1].totalRequests = item.totalRequests;
+    });
+
+    res.json(monthlyData);
+  } catch (error) {
+    console.error('Error fetching requests per month:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -171,6 +214,54 @@ router.get('/collector-assignments', authMiddleware, adminMiddleware, async (req
     res.json(collectorAssignments);
   } catch (err) {
     console.error('Error fetching collector assignments:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get the number of requests for each garbage category (filter out categories with weight 0)
+router.get('/garbage-category-count', authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const categoryCounts = await Request.aggregate([
+      { $unwind: '$wasteItems' }, // Unwind wasteItems array
+      {
+        $group: {
+          _id: '$wasteItems.wasteType', // Group by wasteType (food, cardboard, polythene)
+          totalWeight: { $sum: '$wasteItems.weight' }, // Sum total weight for each category
+        },
+      },
+      { $match: { totalWeight: { $gt: 0 } } }, // Filter out categories with total weight of 0
+      { $sort: { totalWeight: -1 } }, // Sort by total weight in descending order
+    ]);
+
+    res.json(categoryCounts);
+  } catch (error) {
+    console.error('Error fetching garbage category counts:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+// routes/admin.js
+
+// Get the number of requests for each garbage category excluding those with zero weight
+router.get('/garbage-category-count', authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const categoryCounts = await Request.aggregate([
+      { $unwind: '$wasteItems' }, // Unwind wasteItems array
+      {
+        $group: {
+          _id: '$wasteItems.wasteType', // Group by wasteType (food, cardboard, polythene)
+          totalWeight: { $sum: '$wasteItems.weight' }, // Sum the weight of each category
+        },
+      },
+      { $match: { totalWeight: { $gt: 0 } } }, // Filter out categories with zero weight
+      { $sort: { totalWeight: -1 } }, // Sort by total weight in descending order
+    ]);
+
+    res.json(categoryCounts);
+  } catch (error) {
+    console.error('Error fetching garbage category counts:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
