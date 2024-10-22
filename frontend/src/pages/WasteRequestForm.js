@@ -1,10 +1,8 @@
-// src/components/WasteRequestForm.js
-
 import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
-import { Form, Button, Alert, Card, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import '../styles/WasteRequestForm.css'; // Link to custom CSS
 
 const WasteRequestForm = () => {
   const { auth } = useContext(AuthContext);
@@ -84,61 +82,44 @@ const WasteRequestForm = () => {
   };
 
   return (
-    <div>
-      <h2>Create Waste Collection Request</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
+    <div className="waste-request-container">
+      <h2 className="title">Create Waste Collection Request</h2>
+      {error && <div className="error-message">{error}</div>}
 
-      {/* User Info Card */}
-      <Card className="mb-4">
-        <Card.Body>
-          <h5>User Information</h5>
-          <p>
-            <strong>Name:</strong> {userInfo.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {userInfo.email}
-          </p>
-          <p>
-            <strong>Phone:</strong> {userInfo.phoneNumber}
-          </p>
-        </Card.Body>
-      </Card>
+      {/* User Info Section */}
+      <div className="user-info-card">
+        <h5>User Information</h5>
+        <p><strong>Name:</strong> {userInfo.name}</p>
+        <p><strong>Email:</strong> {userInfo.email}</p>
+        <p><strong>Phone:</strong> {userInfo.phoneNumber}</p>
+      </div>
 
       {/* Waste Request Form */}
-      <Form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="waste-form">
         <h5>Enter Weights for Waste Types</h5>
-        <Row className="mb-4">
-          {formData.wasteItems.map((waste, index) => (
-            <Col md={4} key={waste.wasteType}>
-              <Card className="mb-3">
-                <Card.Body>
-                  <Card.Title>
-                    {waste.wasteType.charAt(0).toUpperCase() + waste.wasteType.slice(1)} Waste
-                  </Card.Title>
-                  <Form.Group controlId={`weight-${waste.wasteType}`}>
-                    <Form.Label>Weight (kg)</Form.Label>
-                    <Form.Control
-                      type="number"
-                      min="0"
-                      step="0.1"
-                      value={waste.weight}
-                      onChange={(e) => handleWeightChange(e, waste.wasteType)}
-                      required
-                    />
-                  </Form.Group>
-                </Card.Body>
-              </Card>
-            </Col>
+        <div className="waste-items-grid">
+          {formData.wasteItems.map((waste) => (
+            <div key={waste.wasteType} className="waste-item-card">
+              <h3>{waste.wasteType.charAt(0).toUpperCase() + waste.wasteType.slice(1)} Waste</h3>
+              <label htmlFor={`weight-${waste.wasteType}`}>Weight (kg)</label>
+              <input
+                type="number"
+                id={`weight-${waste.wasteType}`}
+                min="0"
+                step="0.1"
+                value={waste.weight}
+                onChange={(e) => handleWeightChange(e, waste.wasteType)}
+                required
+                className="weight-input"
+              />
+            </div>
           ))}
-        </Row>
+        </div>
 
-        <Button variant="primary" type="submit">
-          Proceed to Payment
-        </Button>
-      </Form>
+        <button type="submit" className="submit-btn">Proceed to Payment</button>
+      </form>
     </div>
   );
 };
 
 export default WasteRequestForm;
- 

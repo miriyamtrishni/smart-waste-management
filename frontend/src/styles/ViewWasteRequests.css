@@ -1,0 +1,116 @@
+/* Container for the waste requests page */
+.view-requests-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.view-requests-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+
+/* Table styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.table td {
+    background-color: #fff;
+}
+
+.table-empty {
+    text-align: center;
+    font-size: 14px;
+    color: #6c757d;
+    padding: 20px;
+}
+
+/* Modal styles */
+.modal-header {
+    background-color: #f8f9fa;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.modal-body {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.modal-footer button {
+    border-radius: 5px;
+}
+
+.table-small {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-small th,
+.table-small td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+/* Button styles */
+.view-details-btn {
+    background-color: #17a2b8;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.view-details-btn:hover {
+    opacity: 0.9;
+}
+
+.close-modal-btn {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close-modal-btn:hover {
+    opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .table th,
+    .table td {
+        padding: 10px;
+    }
+
+    .view-details-btn,
+    .close-modal-btn {
+        padding: 6px 10px;
+    }
+}

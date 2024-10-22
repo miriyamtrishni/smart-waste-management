@@ -1,0 +1,92 @@
+/* General container for request details page */
+.request-details-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.request-details-container h5 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+/* Card styling */
+.card {
+    border: none;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+/* Waste item list */
+.waste-items-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.waste-items-list li {
+    padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.waste-items-list li:last-child {
+    border-bottom: none;
+}
+
+/* Back button */
+.back-to-requests-btn {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.back-to-requests-btn:hover {
+    opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .request-details-container {
+        padding: 10px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 18px;
+    }
+
+    .back-to-requests-btn {
+        padding: 6px 12px;
+    }
+}

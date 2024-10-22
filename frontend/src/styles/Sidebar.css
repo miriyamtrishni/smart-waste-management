@@ -1,0 +1,27 @@
+/* src/styles/Sidebar.css */
+
+.sidebar {
+    height: 100vh;
+    position: sticky;
+    top: 56px; /* Height of the Navbar */
+    padding-top: 20px;
+    border-right: 1px solid #dee2e6;
+  }
+  
+  .sidebar .nav-link {
+    color: #000;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar .nav-link.active {
+    background-color: #e9ecef;
+    font-weight: bold;
+  }
+  
+  .sidebar .nav-link:hover {
+    background-color: #e9ecef;
+    color: #000;
+  }
+  

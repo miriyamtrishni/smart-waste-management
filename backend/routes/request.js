@@ -141,4 +141,24 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
+// Fetch all requests for the logged-in user
+router.get('/user/my-requests', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const userRequests = await Request.find({ user: userId })
+      .populate('assignedCollector', 'name')
+      .sort({ createdAt: -1 }); // Optional: Sort by newest first
+
+    if (!userRequests.length) {
+      return res.status(404).json({ message: 'No requests found for this user' });
+    }
+
+    res.json(userRequests);
+  } catch (error) {
+    console.error('Error fetching user requests:', error);
+    res.status(500).json({ message: 'Failed to fetch requests' });
+  }
+});
+
+
 module.exports = router;
