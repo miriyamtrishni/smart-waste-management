@@ -1,0 +1,97 @@
+/* General Dashboard Styles */
+.dashboard-container {
+    padding: 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  .dashboard-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  .dashboard-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #6c757d;
+  }
+  
+  /* Invoice Card Styles */
+  .invoice-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .invoice-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Header section */
+  .invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 1rem;
+  }
+  
+  .invoice-left {
+    color: #343a40;
+  }
+  
+  .invoice-company {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #343a40;
+  }
+  
+  .invoice-right {
+    text-align: right;
+  }
+  
+  .invoice-number {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  /* Table Styles */
+  .invoice-table {
+    width: 100%;
+    margin-top: 1.5rem;
+    border-collapse: collapse;
+  }
+  
+  .invoice-table th, .invoice-table td {
+    border: 1px solid #e9ecef;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .invoice-table th {
+    background-color: #343a40;
+    color: #fff;
+  }
+  
+  .invoice-table td {
+    background-color: #f8f9fa;
+  }
+  
+  /* Footer section */
+  .invoice-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+  
+  .invoice-footer h5 {
+    font-weight: bold;
+    color: #343a40;
+  }
+  

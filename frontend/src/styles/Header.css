@@ -1,0 +1,60 @@
+/* Navbar background */
+.navbar-dark {
+  background-color: #00693C !important; /* Adjust the green background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+/* Logo styles */
+.navbar-brand {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  color: #ffffff !important;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* Navigation links */
+.navbar-nav .nav-link {
+  color: #ffffff !important;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  margin-right: 1.5rem; /* Add spacing between links */
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effects for links */
+.navbar-nav .nav-link:hover {
+  color: #ffdd57 !important;
+  background-color: rgba(255, 221, 87, 0.1);
+  border-radius: 5px;
+}
+
+/* Align the Logout button */
+.logout-btn {
+  background-color: #dc3545 !important; /* Red background for Logout */
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+  margin-left: auto ; /* Pushes logout to the far right */
+
+}
+
+/* Hover effect for logout */
+.logout-btn:hover {
+  background-color: #c82333 !important;
+}
+
+/* Ensures proper alignment for smaller screens */
+@media (max-width: 768px) {
+  .navbar-collapse {
+    justify-content: center;
+  }
+
+  .navbar-nav .nav-link {
+    margin-right: 0; /* Removes margin for small screens */
+    margin-bottom: 0.5rem;
+  }
+}

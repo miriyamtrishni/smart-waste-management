@@ -1,9 +1,7 @@
-// components/UserInvoices.js
-
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
-import { Table } from 'react-bootstrap';
+import '../styles/UserInvoices.css'; // Import custom CSS
 
 const UserInvoices = () => {
   const { auth } = useContext(AuthContext);
@@ -25,18 +23,27 @@ const UserInvoices = () => {
   }, [auth.token]);
 
   return (
-    <div>
-      <h2>Your Invoices</h2>
+    <div className="invoice-container">
+      <h2 className="invoice-title">Your Invoices</h2>
       {invoices.length === 0 ? (
         <p>No invoices available.</p>
       ) : (
         invoices.map((invoice) => (
-          <div key={invoice._id} className="mb-4">
-            <h5>
-              Invoice for {new Date(invoice.periodStart).toLocaleDateString()} -{' '}
-              {new Date(invoice.periodEnd).toLocaleDateString()}
-            </h5>
-            <Table striped bordered hover>
+          <div key={invoice._id} className="invoice-card">
+            <div className="invoice-header">
+
+            <div className="invoice-left">
+              <h4 className="invoice-company">TrashMate</h4>
+              <p>Invoice for {new Date(invoice.periodStart).toLocaleDateString()} - {new Date(invoice.periodEnd).toLocaleDateString()}</p>
+            </div>
+            <div className="invoice-right">
+              <h4 className="invoice-number">Invoice #{invoice._id}</h4>
+              <p>Date: {new Date().toLocaleDateString()}</p>
+            </div>
+
+              
+            </div>
+            <table className="invoice-table">
               <thead>
                 <tr>
                   <th>Waste Type</th>
@@ -55,9 +62,10 @@ const UserInvoices = () => {
                   </tr>
                 ))}
               </tbody>
-            </Table>
-            <h5>Total Amount: {invoice.totalAmount} LKR</h5>
-            <hr />
+            </table>
+            <div className="invoice-footer">
+              <h5>Total Amount: {invoice.totalAmount} LKR</h5>
+            </div>
           </div>
         ))
       )}
