@@ -21,6 +21,7 @@ router.get('/users', authMiddleware, adminMiddleware, async (req, res) => {
     const users = await User.find({ role: 'user' }).populate('assignedCollector', 'name');
     res.json(users);
   } catch (err) {
+    console.error('Error fetching users:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -45,6 +46,7 @@ router.put('/assign-collector', authMiddleware, adminMiddleware, async (req, res
 
     res.json({ message: 'Garbage collector assigned to user' });
   } catch (err) {
+    console.error('Error assigning collector:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -86,7 +88,7 @@ router.post('/generate-invoice/:userId', authMiddleware, adminMiddleware, async 
     let totalAmount = 0;
     const wasteDetails = Object.keys(wasteTotals).map((wasteType) => {
       const totalWeight = wasteTotals[wasteType];
-      const ratePerKg = rates[wasteType];
+      const ratePerKg = rates[wasteType] || 0; // Handle unknown waste types
       const amount = totalWeight * ratePerKg;
       totalAmount += amount;
 
@@ -115,5 +117,63 @@ router.post('/generate-invoice/:userId', authMiddleware, adminMiddleware, async 
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// Get categorized garbage collection data for admin
+router.get('/garbage-stats', authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const stats = await GarbageCollectionEntry.aggregate([
+      { $unwind: '$wasteData' }, // Unwind wasteData array
+      {
+        $group: {
+          _id: '$wasteData.wasteType', // Group by wasteType
+          totalWeight: { $sum: '$wasteData.weight' }, // Sum total weight for each type
+        },
+      },
+    ]);
+
+    res.json(stats);
+  } catch (err) {
+    console.error('Error fetching garbage stats:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get the number of users assigned to each garbage collector
+router.get('/collector-assignments', authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const collectorAssignments = await User.aggregate([
+      { $match: { role: 'user', assignedCollector: { $exists: true, $ne: null } } }, // Only users with assigned collectors
+      {
+        $group: {
+          _id: '$assignedCollector',
+          assignedUsers: { $sum: 1 }, // Count number of users assigned to each collector
+        },
+      },
+      {
+        $lookup: {
+          from: 'users', // Assuming collectors are in the same 'users' collection
+          localField: '_id',
+          foreignField: '_id',
+          as: 'collector',
+        },
+      },
+      {
+        $unwind: '$collector',
+      },
+      {
+        $project: {
+          collectorName: '$collector.name', // Project collector's name
+          assignedUsers: 1,
+        },
+      },
+    ]);
+
+    res.json(collectorAssignments);
+  } catch (err) {
+    console.error('Error fetching collector assignments:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 module.exports = router;

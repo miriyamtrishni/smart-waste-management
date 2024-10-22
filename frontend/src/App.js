@@ -18,6 +18,7 @@ import PaymentPage from './pages/PaymentPage';
 import AdminUserManagement from './components/AdminUserManagement';
 import CollectorAssignedUsers from './components/CollectorAssignedUsers';
 import UserInvoices from './components/UserInvoices';
+import AdminCharts from './pages/AdminCharts';  // New charts page import
 
 function App() {
   return (
@@ -52,9 +53,7 @@ function App() {
           <Route
             path="/user/invoices"
             element={
-              <PrivateRoute roles={['user']}>
-                <UserInvoices />
-              </PrivateRoute>
+              <PrivateRoute roles={['user']}><UserInvoices /></PrivateRoute>
             }
           />
 
@@ -62,17 +61,19 @@ function App() {
           <Route
             path="/admin-dashboard"
             element={
-              <PrivateRoute roles={['admin']}>
-                <AdminDashboard />
-              </PrivateRoute>
+              <PrivateRoute roles={['admin']}><AdminDashboard /></PrivateRoute>
             }
           />
           <Route
             path="/admin/users"
             element={
-              <PrivateRoute roles={['admin']}>
-                <AdminUserManagement />
-              </PrivateRoute>
+              <PrivateRoute roles={['admin']}><AdminUserManagement /></PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/charts"  // New route for charts
+            element={
+              <PrivateRoute roles={['admin']}><AdminCharts /></PrivateRoute>
             }
           />
 
@@ -80,17 +81,13 @@ function App() {
           <Route
             path="/garbage-collector-dashboard"
             element={
-              <PrivateRoute roles={['garbageCollector', 'admin']}>
-                <GarbageCollectorDashboard />
-              </PrivateRoute>
+              <PrivateRoute roles={['garbageCollector', 'admin']}><GarbageCollectorDashboard /></PrivateRoute>
             }
           />
           <Route
             path="/collector/assigned-users"
             element={
-              <PrivateRoute roles={['garbageCollector']}>
-                <CollectorAssignedUsers />
-              </PrivateRoute>
+              <PrivateRoute roles={['garbageCollector']}><CollectorAssignedUsers /></PrivateRoute>
             }
           />
 
@@ -98,17 +95,13 @@ function App() {
           <Route
             path="/request-form"
             element={
-              <PrivateRoute roles={['user']}>
-                <WasteRequestForm />
-              </PrivateRoute>
+              <PrivateRoute roles={['user']}><WasteRequestForm /></PrivateRoute>
             }
           />
           <Route
             path="/payment"
             element={
-              <PrivateRoute roles={['user']}>
-                <PaymentPage />
-              </PrivateRoute>
+              <PrivateRoute roles={['user']}><PaymentPage /></PrivateRoute>
             }
           />
         </Routes>
