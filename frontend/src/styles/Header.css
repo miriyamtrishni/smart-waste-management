@@ -1,60 +1,153 @@
-/* Navbar background */
-.navbar-dark {
-  background-color: #0ca864 !important; /* Adjust the green background */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
+/* src/styles/Header.css */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap');
+
+/* Variables for Consistent Styling */
+:root {
+  --navbar-bg-color: #000000; /* Black */
+  --navbar-text-color: #ffffff; /* White */
+  --active-link-color: #ffdd57; /* Amber/Yellow */
+  --hover-bg-color: rgba(255, 221, 87, 0.1); /* Light Amber */
+  --border-color: #ffffff; /* White */
 }
 
-/* Logo styles */
+/* Reset Margin and Padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Padding to Prevent Overlap with Fixed Navbar */
+body {
+  padding-top: 80px; /* Height of the Navbar */
+  font-family: 'Roboto', sans-serif; /* Consistent Font */
+  background-color: #f8f9fa; /* Light Background for Content */
+}
+
+/* Navbar Container */
+.navbar-custom {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--navbar-bg-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  z-index: 1000;
+}
+
+/* Logo Styling */
 .navbar-brand {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-  color: #ffffff !important;
+  font-size: 1.8rem;
+  color: var(--navbar-text-color);
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
 }
 
-/* Navigation links */
-.navbar-nav .nav-link {
-  color: #ffffff !important;
+.navbar-brand:hover {
+  color: var(--active-link-color);
+}
+
+/* Navigation Links Container */
+.nav-links {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Pushes the links to the right */
+}
+
+/* Individual Navigation Link */
+.nav-link {
+  color: var(--navbar-text-color);
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
-  margin-right: 1.5rem; /* Add spacing between links */
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease-in-out;
+  margin-left: 2rem;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease-in-out;
 }
 
-/* Hover effects for links */
-.navbar-nav .nav-link:hover {
-  color: #ffdd57 !important;
-  background-color: rgba(255, 221, 87, 0.1);
-  border-radius: 5px;
+.nav-link:hover {
+  color: var(--active-link-color);
 }
 
-/* Align the Logout button */
+/* Active Navigation Link */
+.nav-link.active {
+  color: var(--active-link-color);
+}
+
+/* Logout Button Styling */
 .logout-btn {
-  background-color: #dc3545 !important; /* Red background for Logout */
-  color: white !important;
+  background-color: transparent;
+  color: var(--navbar-text-color);
+  border: 2px solid var(--navbar-text-color);
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  transition: background-color 0.3s ease-in-out;
-  margin-left: auto ; /* Pushes logout to the far right */
-
+  margin-left: 2rem;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
 }
 
-/* Hover effect for logout */
 .logout-btn:hover {
-  background-color: #c82333 !important;
+  background-color: var(--hover-bg-color);
+  color: var(--active-link-color);
+  border-color: var(--active-link-color);
 }
 
-/* Ensures proper alignment for smaller screens */
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+  display: none; /* Hidden on larger screens */
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--navbar-text-color);
+  cursor: pointer;
+  margin-left: auto; /* Aligns to the right */
+}
+
+/* Mobile Navigation Menu */
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--navbar-bg-color);
+  position: absolute;
+  top: 80px; /* Below the Navbar */
+  left: 0;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-nav.active {
+  display: flex;
+}
+
+/* Mobile Navigation Links */
+.mobile-nav .nav-link {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+}
+
+.mobile-nav .logout-btn {
+  margin: 1rem 0;
+  width: 90%;
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .navbar-collapse {
-    justify-content: center;
+  .nav-links {
+    display: none; /* Hide desktop links */
   }
 
-  .navbar-nav .nav-link {
-    margin-right: 0; /* Removes margin for small screens */
-    margin-bottom: 0.5rem;
+  .mobile-menu-toggle {
+    display: block; /* Show hamburger menu */
   }
 }

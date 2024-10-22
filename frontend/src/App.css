@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+/* src/App.css */
+
+.main-content {
+  padding-top: 80px; /* Match the navbar's fixed height */
+  padding: 20px; /* Optional: Additional padding for aesthetics */
+  box-sizing: border-box;
+  min-height: 100vh; /* Ensure content fills the viewport height */
+  background-color: #f8f9fa; /* Light background for main content */
+}
