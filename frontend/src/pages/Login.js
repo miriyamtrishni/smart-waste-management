@@ -4,6 +4,7 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Login.css'; // Link to a CSS file for additional styling
 
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
@@ -15,6 +16,7 @@ const Login = () => {
   });
 
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const { email, password } = formData;
 
@@ -46,26 +48,57 @@ const Login = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div>
-      <h2>Login</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Form onSubmit={onSubmit}>
-        
-        <Form.Group controlId="email" className="mb-3">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name="email" value={email} onChange={onChange} required />
-        </Form.Group>
-        
-        <Form.Group controlId="password" className="mb-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name="password" value={password} onChange={onChange} required />
-        </Form.Group>
-        
-        <Button variant="primary" type="submit">
-          Login
-        </Button>
-      </Form>
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-title">Login</h2>
+        <p className="login-subtitle">Enter your credentials to access your account</p>
+        {error && <Alert variant="danger">{error}</Alert>}
+        <Form onSubmit={onSubmit}>
+          
+          <Form.Group controlId="email" className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              value={email}
+              onChange={onChange}
+              placeholder="Enter your email"
+              required
+              className="input-field"
+            />
+          </Form.Group>
+          
+          <Form.Group controlId="password" className="mb-3">
+            <Form.Label>Password</Form.Label>
+            <div className="password-container">
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                onChange={onChange}
+                placeholder="Enter your password"
+                required
+                className="input-field"
+              />
+              <span
+                className="password-toggle"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? '👁️‍🗨️' : '👁️'} {/* Icon for toggling */}
+              </span>
+            </div>
+          </Form.Group>
+          
+          <Button className="login-button" type="submit">
+            Login
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 };

@@ -1,9 +1,8 @@
-// frontend/src/pages/Register.js
 import React, { useState, useContext } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Register.css'; // Import the new custom CSS
 
 const Register = () => {
   const { setAuth } = useContext(AuthContext);
@@ -44,48 +43,75 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Form onSubmit={onSubmit}>
-        <Form.Group controlId="name" className="mb-3">
-          <Form.Label>Name</Form.Label>
-          <Form.Control type="text" name="name" value={name} onChange={onChange} required />
-        </Form.Group>
-        
-        <Form.Group controlId="email" className="mb-3">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name="email" value={email} onChange={onChange} required />
-        </Form.Group>
-        
-        <Form.Group controlId="password" className="mb-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name="password" value={password} onChange={onChange} required />
-        </Form.Group>
+    <div className="register-container">
+      <div className="register-box">
+        <h2 className="register-title">Register</h2>
+        {error && <div className="alert-box">{error}</div>}
+        <form onSubmit={onSubmit}>
+          <input 
+            type="text" 
+            name="name" 
+            value={name} 
+            onChange={onChange} 
+            placeholder="Enter your name" 
+            required 
+            className="input-field"
+          />
+          
+          <input 
+            type="email" 
+            name="email" 
+            value={email} 
+            onChange={onChange} 
+            placeholder="Enter your email" 
+            required 
+            className="input-field"
+          />
+          
+          <input 
+            type="password" 
+            name="password" 
+            value={password} 
+            onChange={onChange} 
+            placeholder="Enter your password" 
+            required 
+            className="input-field"
+          />
 
-        <Form.Group controlId="address" className="mb-3">
-          <Form.Label>Address</Form.Label>
-          <Form.Control type="text" name="address" value={address} onChange={onChange} />
-        </Form.Group>
-        
-        <Form.Group controlId="phoneNumber" className="mb-3">
-          <Form.Label>Phone Number</Form.Label>
-          <Form.Control type="text" name="phoneNumber" value={phoneNumber} onChange={onChange} />
-        </Form.Group>
-        
-        <Form.Group controlId="role" className="mb-3">
-          <Form.Label>Role</Form.Label>
-          <Form.Select name="role" value={role} onChange={onChange}>
+          <input 
+            type="text" 
+            name="address" 
+            value={address} 
+            onChange={onChange} 
+            placeholder="Enter your address" 
+            className="input-field"
+          />
+
+          <input 
+            type="text" 
+            name="phoneNumber" 
+            value={phoneNumber} 
+            onChange={onChange} 
+            placeholder="Enter your phone number" 
+            className="input-field"
+          />
+          
+          <select 
+            name="role" 
+            value={role} 
+            onChange={onChange} 
+            className="select-field"
+          >
             <option value="user">User</option>
             <option value="admin">Admin</option>
             <option value="garbageCollector">Garbage Collector</option>
-          </Form.Select>
-        </Form.Group>
-        
-        <Button variant="primary" type="submit">
-          Register
-        </Button>
-      </Form>
+          </select>
+          
+          <button className="register-button" type="submit">
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

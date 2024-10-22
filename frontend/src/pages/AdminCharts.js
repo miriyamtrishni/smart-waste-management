@@ -1,33 +1,34 @@
 import React from 'react';
-import AdminGarbageChart from '../components/AdminGarbageChart'; // Import the garbage chart component
-import AssignedCollectorChart from '../components/AssignedCollectorChart'; // Import the assigned collector chart component
-import MonthlyRequestsChart from '../components/MonthlyRequestsChart'; // Import the monthly requests chart component
-import GarbageCategoryChart from '../components/GarbageCategoryChart'; // Import the garbage category chart component
+import AdminGarbageChart from '../components/AdminGarbageChart';
+import AssignedCollectorChart from '../components/AssignedCollectorChart';
+import MonthlyRequestsChart from '../components/MonthlyRequestsChart';
+import GarbageCategoryChart from '../components/GarbageCategoryChart';
+import '../styles/AdminCharts.css'; // Import the CSS file
 
 const AdminCharts = () => {
   return (
-    <div>
-      <h2>Admin Charts</h2>
+    <div className="admin-charts-container">
+      <h2 className="admin-charts-header">Admin Charts</h2>
 
       {/* Old Garbage Data by Category */}
-      <div style={{ marginTop: '20px' }}>
+      <div className="chart-section">
         <AdminGarbageChart />
       </div>
 
       {/* New Chart for Garbage Collectors and Users */}
-      <div style={{ marginTop: '40px' }}>
+      <div className="chart-section">
         <AssignedCollectorChart />
       </div>
 
       {/* Two Charts Side by Side: MonthlyRequestsChart and GarbageCategoryChart */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' }}>
+      <div className="side-by-side-charts">
         {/* Number of Requests per Month */}
-        <div style={{ width: '48%' }}>
+        <div className="chart-container">
           <MonthlyRequestsChart />
         </div>
 
         {/* Garbage Category Chart (Most Requested Categories) */}
-        <div style={{ width: '48%' }}>
+        <div className="chart-container">
           <GarbageCategoryChart />
         </div>
       </div>

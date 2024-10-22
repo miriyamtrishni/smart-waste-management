@@ -1,9 +1,7 @@
-// components/AdminUserManagement.js
-
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
-import { Table, Button, Form } from 'react-bootstrap';
+import '../styles/AdminUserManagement.css'; // Link to the new CSS file
 
 const AdminUserManagement = () => {
   const { auth } = useContext(AuthContext);
@@ -49,7 +47,9 @@ const AdminUserManagement = () => {
       // Update local state
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user._id === userId ? { ...user, assignedCollector: collectors.find((c) => c._id === selectedCollector[userId]) } : user
+          user._id === userId
+            ? { ...user, assignedCollector: collectors.find((c) => c._id === selectedCollector[userId]) }
+            : user
         )
       );
       setSelectedCollector({ ...selectedCollector, [userId]: '' });
@@ -60,7 +60,7 @@ const AdminUserManagement = () => {
 
   const generateInvoice = async (userId) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `http://localhost:5000/api/admin/generate-invoice/${userId}`,
         {},
         {
@@ -75,53 +75,54 @@ const AdminUserManagement = () => {
   };
 
   return (
-    <div>
-      <h2>Admin - User Management</h2>
-      <h3>Users</h3>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Assigned Collector</th>
-            <th>Assign Collector</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>{user.assignedCollector ? user.assignedCollector.name : 'Not Assigned'}</td>
-              <td>
-                <Form.Select
-                  value={selectedCollector[user._id] || ''}
-                  onChange={(e) => setSelectedCollector({ ...selectedCollector, [user._id]: e.target.value })}
-                >
-                  <option value="">Select Collector</option>
-                  {collectors.map((collector) => (
-                    <option key={collector._id} value={collector._id}>
-                      {collector.name}
-                    </option>
-                  ))}
-                </Form.Select>
-                <Button
-                  variant="primary"
-                  onClick={() => assignCollector(user._id)}
-                  disabled={!selectedCollector[user._id]}
-                  className="mt-2"
-                >
-                  Assign
-                </Button>
-              </td>
-              <td>
-                <Button variant="success" onClick={() => generateInvoice(user._id)}>
-                  Generate Invoice
-                </Button>
-              </td>
+    <div className="user-management-container">
+      <h2 className="user-management-header">Admin - User Management</h2>
+      <div className="table-container">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Assigned Collector</th>
+              <th>Assign Collector</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user.name}</td>
+                <td>{user.assignedCollector ? user.assignedCollector.name : 'Not Assigned'}</td>
+                <td>
+                  <select
+                    className="select-collector"
+                    value={selectedCollector[user._id] || ''}
+                    onChange={(e) => setSelectedCollector({ ...selectedCollector, [user._id]: e.target.value })}
+                  >
+                    <option value="">Select Collector</option>
+                    {collectors.map((collector) => (
+                      <option key={collector._id} value={collector._id}>
+                        {collector.name}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    className="assign-btn"
+                    onClick={() => assignCollector(user._id)}
+                    disabled={!selectedCollector[user._id]}
+                  >
+                    Assign
+                  </button>
+                </td>
+                <td>
+                  <button className="invoice-btn" onClick={() => generateInvoice(user._id)}>
+                    Generate Invoice
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

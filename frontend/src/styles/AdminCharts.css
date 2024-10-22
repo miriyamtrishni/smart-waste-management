@@ -1,0 +1,43 @@
+/* Container for the Admin Charts */
+.admin-charts-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .admin-charts-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Chart sections with margin for better spacing */
+  .chart-section {
+    margin-top: 20px;
+  }
+  
+  /* Side-by-side charts for MonthlyRequestsChart and GarbageCategoryChart */
+  .side-by-side-charts {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+  
+  /* Individual chart container with responsive width */
+  .chart-container {
+    width: 48%;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .side-by-side-charts {
+      flex-direction: column;
+    }
+  
+    .chart-container {
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
+  

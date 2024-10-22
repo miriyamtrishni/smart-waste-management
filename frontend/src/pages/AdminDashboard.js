@@ -1,10 +1,8 @@
-// components/AdminDashboard.js
-
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
-import { Table, Button, Form, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import '../styles/AdminDashboard.css'; // Add your custom CSS file here
 
 const AdminDashboard = () => {
   const { auth } = useContext(AuthContext);
@@ -21,7 +19,7 @@ const AdminDashboard = () => {
       try {
         const res = await axios.get('http://localhost:5000/api/request/admin/requests', {
           headers: {
-            Authorization: `Bearer ${auth.token}`, // Include token if required
+            Authorization: `Bearer ${auth.token}`,
           },
         });
         setRequests(res.data);
@@ -35,7 +33,7 @@ const AdminDashboard = () => {
       try {
         const res = await axios.get('http://localhost:5000/api/auth/garbage-collectors', {
           headers: {
-            Authorization: `Bearer ${auth.token}`, // Include token if required
+            Authorization: `Bearer ${auth.token}`,
           },
         });
         setGarbageCollectors(res.data);
@@ -75,8 +73,8 @@ const AdminDashboard = () => {
         },
       });
       setRequests(res.data);
-      setEditing({ ...editing, [requestId]: false }); // Close editing mode
-      setSelectedCollector({ ...selectedCollector, [requestId]: '' }); // Reset selected collector
+      setEditing({ ...editing, [requestId]: false });
+      setSelectedCollector({ ...selectedCollector, [requestId]: '' });
       setError('');
     } catch (err) {
       console.error('Error assigning collector:', err);
@@ -117,34 +115,28 @@ const AdminDashboard = () => {
     : requests.filter((req) => req.status !== 'completed');
 
   return (
-    <div>
-      <h2>Admin Dashboard</h2>
+    <div className="admin-dashboard-container">
+      <h2 className="admin-dashboard-header">Admin Dashboard</h2>
+      <p className="admin-dashboard-subtitle">Manage waste collection requests</p>
 
-      {error && <Alert variant="danger">{error}</Alert>}
+      {error && <div className="error-alert">{error}</div>}
 
-      {/* Buttons to toggle between assigned and completed requests */}
-      <Row className="mb-4">
-        <Col>
-          <Button
-            variant={!showCompleted ? 'primary' : 'secondary'}
-            onClick={() => setShowCompleted(false)}
-            className="w-100"
-          >
-            Assign Requests
-          </Button>
-        </Col>
-        <Col>
-          <Button
-            variant={showCompleted ? 'primary' : 'secondary'}
-            onClick={() => setShowCompleted(true)}
-            className="w-100"
-          >
-            Completed Requests
-          </Button>
-        </Col>
-      </Row>
+      <div className="admin-dashboard-button-row">
+        <button
+          className={`admin-dashboard-button ${!showCompleted ? 'active' : ''}`}
+          onClick={() => setShowCompleted(false)}
+        >
+          Assign Requests
+        </button>
+        <button
+          className={`admin-dashboard-button ${showCompleted ? 'active' : ''}`}
+          onClick={() => setShowCompleted(true)}
+        >
+          Completed Requests
+        </button>
+      </div>
 
-      <Table striped bordered hover responsive>
+      <table className="table">
         <thead>
           <tr>
             <th>User Name</th>
@@ -158,16 +150,14 @@ const AdminDashboard = () => {
         <tbody>
           {filteredRequests.length === 0 ? (
             <tr>
-              <td colSpan="6" className="text-center">
-                No requests found.
-              </td>
+              <td colSpan="6" className="table-empty">No requests found.</td>
             </tr>
           ) : (
             filteredRequests.map((req) => (
               <tr key={req._id}>
                 <td>{req.user.name}</td>
                 <td>
-                  <Table size="sm" bordered>
+                  <table className="sub-table">
                     <thead>
                       <tr>
                         <th>Waste Type</th>
@@ -178,19 +168,20 @@ const AdminDashboard = () => {
                     <tbody>
                       {req.wasteItems.map((item) => (
                         <tr key={item._id}>
-                          <td>{item.wasteType.charAt(0).toUpperCase() + item.wasteType.slice(1)}</td>
+                          <td>{item.wasteType}</td>
                           <td>{item.weight}</td>
                           <td>{item.totalPrice} LKR</td>
                         </tr>
                       ))}
                     </tbody>
-                  </Table>
+                  </table>
                 </td>
                 <td>{req.totalPrice} LKR</td>
-                <td>{req.status.charAt(0).toUpperCase() + req.status.slice(1)}</td>
+                <td>{req.status}</td>
                 <td>
                   {editing[req._id] ? (
-                    <Form.Select
+                    <select
+                      className="collector-dropdown"
                       value={selectedCollector[req._id] || ''}
                       onChange={(e) => handleCollectorChange(e, req._id)}
                     >
@@ -200,7 +191,7 @@ const AdminDashboard = () => {
                           {collector.name}
                         </option>
                       ))}
-                    </Form.Select>
+                    </select>
                   ) : req.assignedCollector ? (
                     req.assignedCollector.name
                   ) : (
@@ -209,30 +200,30 @@ const AdminDashboard = () => {
                 </td>
                 <td>
                   {req.status === 'completed' ? (
-                    <Button variant="danger" onClick={() => deleteRequest(req._id)}>
+                    <button className="delete-btn" onClick={() => deleteRequest(req._id)}>
                       Delete
-                    </Button>
+                    </button>
                   ) : editing[req._id] ? (
-                    <Button
-                      className="mt-2"
+                    <button
+                      className="assign-btn"
                       onClick={() => assignCollector(req._id)}
                       disabled={!selectedCollector[req._id]}
                     >
                       Save
-                    </Button>
+                    </button>
                   ) : req.assignedCollector ? (
-                    <Button
-                      variant="warning"
+                    <button
+                      className="edit-btn"
                       onClick={() => setEditing({ ...editing, [req._id]: true })}
                     >
                       Edit
-                    </Button>
+                    </button>
                   ) : (
                     <>
-                      <Form.Select
+                      <select
+                        className="collector-dropdown"
                         value={selectedCollector[req._id] || ''}
                         onChange={(e) => handleCollectorChange(e, req._id)}
-                        className="mb-2"
                       >
                         <option value="">Select Collector</option>
                         {garbageCollectors.map((collector) => (
@@ -240,13 +231,14 @@ const AdminDashboard = () => {
                             {collector.name}
                           </option>
                         ))}
-                      </Form.Select>
-                      <Button
+                      </select>
+                      <button
+                        className="assign-btn"
                         onClick={() => assignCollector(req._id)}
                         disabled={!selectedCollector[req._id]}
                       >
                         Assign
-                      </Button>
+                      </button>
                     </>
                   )}
                 </td>
@@ -254,7 +246,7 @@ const AdminDashboard = () => {
             ))
           )}
         </tbody>
-      </Table>
+      </table>
     </div>
   );
 };
