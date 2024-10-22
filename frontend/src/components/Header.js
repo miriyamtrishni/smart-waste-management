@@ -27,6 +27,7 @@ const Header = () => {
                   <>
                     <Nav.Link as={Link} to="/admin-dashboard">Admin Dashboard</Nav.Link>
                     <Nav.Link as={Link} to="/admin/users">User Management</Nav.Link>
+                    <Nav.Link as={Link} to="/admin/charts">View Charts</Nav.Link> {/* New Link */}
                     <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                   </>
                 )}
