@@ -6,23 +6,6 @@ import { Recycle, Truck, BarChart3, Leaf, ArrowRight } from 'lucide-react';
 const Home = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* Header */}
-      <Navbar bg="light" expand="lg" className="px-4">
-        <Navbar.Brand href="#">
-          <Recycle size={24} className="me-2" />
-          TrashMate
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Nav.Link href="#">Features</Nav.Link>
-            <Nav.Link href="#">Pricing</Nav.Link>
-            <Nav.Link href="#">About</Nav.Link>
-            <Nav.Link href="#">Contact</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-
       {/* Main Content */}
       <main className="flex-grow-1">
         {/* Hero Section */}
@@ -120,8 +103,12 @@ const Home = () => {
               </Col>
             </Row>
           </Container>
-        </section>
+        </section>        
+      </main>
 
+      {/* Footer */}
+
+      <footer className="bg-light py-3">
         {/* Subscription */}
         <section className="py-5 bg-success text-white">
           <Container className="text-center">
@@ -143,10 +130,6 @@ const Home = () => {
             </small>
           </Container>
         </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-light py-3">
         <Container className="d-flex flex-column flex-md-row justify-content-between align-items-center">
           <small className="text-muted">© 2024 TrashMate. All rights reserved.</small>
           <Nav className="mt-2 mt-md-0">

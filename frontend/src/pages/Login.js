@@ -89,7 +89,7 @@ const Login = () => {
                 className="password-toggle"
                 onClick={togglePasswordVisibility}
               >
-                {showPassword ? '👁️' : '👁️‍🗨️'} {/* Icon for toggling */}
+                {showPassword ? '👁️' : '👁️‍🗨️'}
               </span>
             </div>
           </Form.Group>

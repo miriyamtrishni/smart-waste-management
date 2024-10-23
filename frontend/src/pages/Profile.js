@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../firebase'; // Import Firebase storage
-import { Form, Button, ProgressBar, Alert, Card } from 'react-bootstrap';
+import { Form, Button, ProgressBar, Alert, Card, Row, Col } from 'react-bootstrap';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
@@ -81,15 +81,14 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <h2>Profile Page</h2>
+    <div className="container mt-4">
+      <h2 className="text-center mb-4">Profile Page</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
-      {/* Display user information and allow editing */}
       <Card className="mb-4">
         <Card.Body>
-          <h5>User Information</h5>
+          <h5 className="mb-4">User Information</h5>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="name" className="mb-3">
               <Form.Label>Name</Form.Label>
@@ -98,8 +97,10 @@ const Profile = () => {
                 name="name"
                 value={userInfo.name}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
+
             <Form.Group controlId="email" className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -107,8 +108,10 @@ const Profile = () => {
                 name="email"
                 value={userInfo.email}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
+
             <Form.Group controlId="phoneNumber" className="mb-3">
               <Form.Label>Phone Number</Form.Label>
               <Form.Control
@@ -119,32 +122,37 @@ const Profile = () => {
               />
             </Form.Group>
 
-            {/* File upload section */}
             <Form.Group controlId="fileUpload" className="mb-3">
               <Form.Label>Upload Profile Photo</Form.Label>
               <Form.Control type="file" onChange={handleFileChange} />
             </Form.Group>
 
-            <Button variant="primary" onClick={handleUpload}>
-              Upload Photo
-            </Button>
+            {/* Display Uploaded Image */}
+            {downloadURL && (
+              <div className="text-center mt-4">
+                <img
+                  src={downloadURL}
+                  alt="Uploaded profile"
+                  className="img-fluid rounded-circle"
+                  style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                />
+              </div>
+            )}
 
+            {/* Progress Bar */}
             {uploadProgress > 0 && (
               <ProgressBar now={uploadProgress} label={`${Math.round(uploadProgress)}%`} className="mt-3" />
             )}
 
-            {downloadURL && (
-              <img
-                src={downloadURL}
-                alt="Uploaded profile"
-                className="mt-4"
-                style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '50%' }}
-              />
-            )}
-
-            <Button type="submit" variant="success" className="mt-3">
-              Save Changes
-            </Button>
+            {/* Buttons aligned to the right */}
+            <div className="d-flex justify-content-end mt-4">
+              <Button variant="primary" onClick={handleUpload} className="me-2">
+                Upload Photo
+              </Button>
+              <Button type="submit" variant="success">
+                Save Changes
+              </Button>
+            </div>
           </Form>
         </Card.Body>
       </Card>
