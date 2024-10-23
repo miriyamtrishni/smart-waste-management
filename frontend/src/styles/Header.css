@@ -5,7 +5,7 @@
 
 /* Variables for Consistent Styling */
 :root {
-  --navbar-bg-color: #000000; /* Black */
+  --navbar-bg-color: #00BF63; /* Black */
   --navbar-text-color: #ffffff; /* White */
   --active-link-color: #ffdd57; /* Amber/Yellow */
   --hover-bg-color: rgba(255, 221, 87, 0.1); /* Light Amber */
@@ -32,7 +32,7 @@ body {
   top: 0;
   width: 100%;
   background-color: var(--navbar-bg-color);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px #0000001a;
   height: 80px;
   display: flex;
   align-items: center;

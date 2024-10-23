@@ -11,7 +11,7 @@
     background-color: white;
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px #00BF63;
     width: 400px;
   }
   
@@ -50,7 +50,7 @@
   .login-button {
     width: 100%;
     padding: 10px;
-    background-color: #000;
+    background-color: #00BF63;
     color: white;
     border: none;
     border-radius: 5px;
@@ -59,6 +59,6 @@
   }
   
   .login-button:hover {
-    background-color: #333;
+    background-color: #676867;
   }
   
