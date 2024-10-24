@@ -3,6 +3,7 @@
 import React, { useContext, useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Recycle} from 'lucide-react';
 import AuthContext from '../context/AuthContext';
 import '../styles/Header.css';  // Import the CSS file here
 
@@ -40,6 +41,7 @@ const Header = () => {
     >
       <Container>
         <Navbar.Brand as={Link} to="/" onClick={closeMobileMenu}>
+        <Recycle size={25} className="me-2" />
           TrashMate
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleMobileMenu} />

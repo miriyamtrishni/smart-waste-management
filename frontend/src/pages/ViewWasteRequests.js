@@ -137,11 +137,11 @@ const ViewWasteRequests = () => {
                 </>
               )}
             </div>
-            <div className="modal-footer">
+            {/* <div className="modal-footer">
               <button className="close-modal-button" onClick={handleCloseModal}>
                 Close
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

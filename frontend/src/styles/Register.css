@@ -11,7 +11,7 @@
   background-color: white;
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px #00BF63;
+  box-shadow: 0 4px 12px #198754;
   width: 400px;
 }
 
@@ -46,7 +46,7 @@
 .register-button {
   width: 100%;
   padding: 10px;
-  background-color: #00BF63;
+  background-color: #198754;
   color: white;
   border: none;
   border-radius: 5px;

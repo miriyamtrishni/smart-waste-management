@@ -212,7 +212,7 @@ const PaymentPage = () => {
 
   const handleSuccessfulPayment = () => {
     // Redirect to the request form after successful payment and request creation
-    navigate('/request-form');
+    navigate('/');
   };
 
   return (

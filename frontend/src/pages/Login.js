@@ -1,4 +1,3 @@
-// frontend/src/pages/Login.js
 import React, { useState, useContext } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
@@ -27,13 +26,9 @@ const Login = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', formData);
       setAuth({ token: res.data.token, user: parseJwt(res.data.token) });
-      // Redirect based on role
-      const userRole = parseJwt(res.data.token).role;
-      if (userRole === 'admin') {
-        navigate('/admin-dashboard');
-      } else {
-        navigate('/user-dashboard');
-      }
+      
+      // Redirect all users to the home page
+      navigate('/');
     } catch(err) {
       setError(err.response?.data?.message || 'Login failed');
     }
