@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const Request = require('../models/Request');
-const Joi = require('joi'); 
+const Joi = require('joi');
 const authMiddleware = require('../middleware/auth');
 
 // Pricing formula based on weight (per kg)
