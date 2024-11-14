@@ -18,7 +18,9 @@ Welcome to the **Smart Waste Management System**! This project is a powerful, fu
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
+- [Screenshots](#screenshots)
 - [Contributing](#contributing)
+- [Contributors](#contributors)
 - [License](#license)
 
 ---
@@ -110,6 +112,23 @@ Upon successful installation, here’s how the application works for different u
 
 ---
 
+## 🖼️ Screenshots
+
+Below are some screenshots of the main application pages:
+
+### Home Page
+![Home Page](path_to_homepage_screenshot.png)
+
+### Admin Dashboard
+![Admin Dashboard](path_to_admin_dashboard_screenshot.png)
+
+### User Request Form
+![User Request Form](path_to_request_form_screenshot.png)
+
+> **Note:** Replace `path_to_screenshot` with the actual path to the images in the repository.
+
+---
+
 ## 🤝 Contributing
 
 We welcome contributions to improve the Smart Waste Management System. Please fork the repository and submit a pull request for any enhancements or bug fixes.
@@ -118,6 +137,18 @@ We welcome contributions to improve the Smart Waste Management System. Please fo
 - Ensure code quality and consistency with existing code.
 - Provide clear commit messages.
 - Test your changes before submitting.
+
+---
+
+## 👥 Contributors
+
+We’d like to thank all contributors to this project:
+
+- **Trishni W. R. M.** - [GitHub Profile](https://github.com/your_github_profile)
+- **Dilruksha A.G.C.D.** - [GitHub Profile](https://github.com/your_github_profile)
+- **Hesara P.K.A.N.** - [GitHub Profile](https://github.com/your_github_profile)
+
+> Add links to the GitHub profiles of the contributors.
 
 ---
 
