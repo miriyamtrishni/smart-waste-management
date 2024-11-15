@@ -1,27 +1,29 @@
-# Smart Waste Management System 🌍
+# 🌍 Smart Waste Management System
 
 Welcome to the **Smart Waste Management System**! This project is a powerful, full-stack web application designed to enhance waste collection, allocation, and tracking using a modern tech stack.
 
 ---
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node-dot-js&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+<div align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node-dot-js&logoColor=white" alt="Node.js Badge" />
+  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express.js Badge" />
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React Badge" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB Badge" />
+</div>
 
 ---
 
 ## 📋 Table of Contents
 
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [Contributors](#contributors)
-- [License](#license)
+- [📝 Project Overview](#-project-overview)
+- [🚀 Features](#-features)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [🏁 Getting Started](#-getting-started)
+- [📌 Usage](#-usage)
+- [🖼️ Screenshots](#️-screenshots)
+- [🤝 Contributing](#-contributing)
+- [👥 Contributors](#-contributors)
+- [📜 License](#-license)
 
 ---
 
@@ -61,16 +63,6 @@ By supporting multiple roles, this system improves both user experience and oper
 
 ---
 
-## 🛠️ Tech Stack
-
-The **Smart Waste Management System** is built on the **MARN stack** for robust performance and scalability:
-
-- **MongoDB** - NoSQL database for efficient data storage
-- **Express.js** - Fast, unopinionated web framework for Node.js
-- **React** - A powerful JavaScript library for building user interfaces
-- **Node.js** - A JavaScript runtime built on Chrome's V8 engine
-
----
 
 ## 🏁 Getting Started
 
@@ -114,36 +106,14 @@ Upon successful installation, here’s how the application works for different u
 
 ## 🖼️ Screenshots
 
-Below are some screenshots of the main application pages:
-
 ### Home Page
 ![Screenshot_15-11-2024_63611_localhost](https://github.com/user-attachments/assets/0f220bdc-341d-4e26-8a36-32542d3da3e1)
-
 
 ### Admin Dashboard
 ![Screenshot_15-11-2024_64655_localhost](https://github.com/user-attachments/assets/a72593ec-ce8c-4806-8132-0b74e46ad046)
 
-![Screenshot_15-11-2024_64821_localhost](https://github.com/user-attachments/assets/963e3417-d72f-4e16-a715-595b47f6199e)
-
-![Screenshot_15-11-2024_64742_localhost](https://github.com/user-attachments/assets/ebb32b59-266c-4b3e-9a69-5bf07099e128)
-
-
-
-
 ### User Side
 ![Screenshot_15-11-2024_63821_localhost](https://github.com/user-attachments/assets/b1a48f56-c77f-4261-abf9-6b17a015b3fc)
-
-![Screenshot_15-11-2024_64253_localhost](https://github.com/user-attachments/assets/9ec5f07e-8c90-41f5-963b-f2b22760f480)
-
-![Screenshot_15-11-2024_63750_localhost](https://github.com/user-attachments/assets/ac4f2009-300c-4a74-bd3d-638e85348311)
-
-
-
-### Garbage Collect
-![Screenshot_15-11-2024_64923_localhost](https://github.com/user-attachments/assets/3f5dd790-3de3-4d80-beef-0c7b4bdaec1c)
-
-
-
 
 ---
 
