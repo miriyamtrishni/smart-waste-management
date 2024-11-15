@@ -166,8 +166,6 @@ We’d like to thank all contributors to this project:
 - **Dilruksha A.G.C.D.** - [GitHub Profile](https://github.com/dilrukshax)
 - **Hesara P.K.A.N.** - [GitHub Profile](https://github.com/nidulaX)
 
-> Add links to the GitHub profiles of the contributors.
-
 ---
 
 Thank you for visiting the **Smart Waste Management System** repository! Happy coding! 😃
