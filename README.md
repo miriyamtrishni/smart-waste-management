@@ -162,17 +162,11 @@ We welcome contributions to improve the Smart Waste Management System. Please fo
 
 We’d like to thank all contributors to this project:
 
-- **Trishni W. R. M.** - [GitHub Profile](https://github.com/your_github_profile)
-- **Dilruksha A.G.C.D.** - [GitHub Profile](https://github.com/your_github_profile)
-- **Hesara P.K.A.N.** - [GitHub Profile](https://github.com/your_github_profile)
+- **Trishni W. R. M.** - [GitHub Profile](https://github.com/miriyamtrishni)
+- **Dilruksha A.G.C.D.** - [GitHub Profile](https://github.com/dilrukshax)
+- **Hesara P.K.A.N.** - [GitHub Profile](https://github.com/nidulaX)
 
 > Add links to the GitHub profiles of the contributors.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
