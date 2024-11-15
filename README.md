@@ -117,13 +117,24 @@ Upon successful installation, here’s how the application works for different u
 Below are some screenshots of the main application pages:
 
 ### Home Page
-![Home Page](path_to_homepage_screenshot.png)
+![Screenshot_15-11-2024_63611_localhost](https://github.com/user-attachments/assets/0f220bdc-341d-4e26-8a36-32542d3da3e1)
+
 
 ### Admin Dashboard
-![Admin Dashboard](path_to_admin_dashboard_screenshot.png)
+![Screenshot_15-11-2024_64655_localhost](https://github.com/user-attachments/assets/a72593ec-ce8c-4806-8132-0b74e46ad046)
 
-### User Request Form
-![User Request Form](path_to_request_form_screenshot.png)
+![Screenshot_15-11-2024_64821_localhost](https://github.com/user-attachments/assets/963e3417-d72f-4e16-a715-595b47f6199e)
+
+
+
+### User Side
+![Screenshot_15-11-2024_63821_localhost](https://github.com/user-attachments/assets/b1a48f56-c77f-4261-abf9-6b17a015b3fc)
+
+### Garbage Collect
+![Screenshot_15-11-2024_64923_localhost](https://github.com/user-attachments/assets/3f5dd790-3de3-4d80-beef-0c7b4bdaec1c)
+
+
+
 
 > **Note:** Replace `path_to_screenshot` with the actual path to the images in the repository.
 
